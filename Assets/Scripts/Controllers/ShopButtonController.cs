@@ -35,6 +35,8 @@ public class ShopButtonController : MonoBehaviour
             selectionImage = GetComponent<Image>();
 
         selectionImage.color = isSelected ? new Color(0.4f, 0.8f, 0.8f, 1) : Color.white;
+        PlayerManager.Instance.VisualController.SetVisual(CurrentItem.type, isSelected , CurrentItem.sprite);
+
         Selected = isSelected;
     }
     public void OnCLick()

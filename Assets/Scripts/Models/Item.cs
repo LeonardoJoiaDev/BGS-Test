@@ -12,7 +12,23 @@ public class Item: ScriptableObject
 
 public enum Type
 {
-    head,
-    hood
+    bootL,
+    bootR,
+    elbowL,
+    elbowR,
+    face,
+    hood,
+    legL,
+    legR,
+    pelvis,
+    shoulderL,
+    shoulderR,
+    torso,
+    wristL,
+    wristR
+
+
+    
 }
+    
 
