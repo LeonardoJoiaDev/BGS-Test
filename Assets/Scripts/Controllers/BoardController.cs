@@ -11,32 +11,14 @@ public class BoardController : MonoBehaviour
     [SerializeField,Tooltip("Insert ShopController")]
     ShopController shopController;
 
-    public void InitializeBoard(GameObject prefab, List<Item> itens)
+    public void SetItemOnBoard(Transform transform)
     {
-        foreach (Item item in itens)
-        {
-            GameObject go = Instantiate(prefab);
-            go.transform.SetParent(content, false);
-            go.GetComponent<ShopButtonController>().SetItem(
-                item,
-                ShopButtonController.STATE.sell,
-                this
-                );
-        }
-
-            
+        transform.SetParent(content,false);
     }
 
-    public void AddItem(Transform transform)
+    void OrderBoard()
     {
-        transform.SetParent(content);
+
     }
-    public void PutInCart(Transform button)
-    {
-        shopController.PutInCart(button);
-    }
-    public void RemoveFromCart(Transform button)
-    {
-        shopController.RemoveFromCart(button);
-    }
+    
 }

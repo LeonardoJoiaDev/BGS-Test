@@ -6,54 +6,54 @@ using UnityEngine.UI;
 
 public class ShopButtonController : MonoBehaviour
 {
-    Item item;
-
     [SerializeField, Tooltip("insert text mesh pro object for show value")]
     TextMeshProUGUI valueText;
 
     [SerializeField, Tooltip("Insert child with Image component")]
-    Image image;
+    Image itemImage;
 
-    BoardController boardController;
+    Image selectionImage;
+    ShopController shopController;
 
-    STATE state;
-
-    public Item Item { get => item; }
-
-    public void SetItem(Item item, STATE state, BoardController boardController)
+    public bool IsEquipped { get; private set; }
+    public bool IsPurchased { get; private set; }
+    public Item CurrentItem { get; private set; }
+    public bool Selected { get; private set; }
+    
+    public void SetItem(Item item, ShopController shopController)
     {
-        this.item = item;
+        CurrentItem = item;
         valueText.text = item.value.ToString();
-        image.sprite = item.sprite;
+        this.shopController = shopController; 
+        itemImage.sprite = item.sprite;
 
-        this.state = state;
-        this.boardController = boardController;
     }
 
-    public void OnClick()
+    public void SetIsSelected(bool isSelected)
     {
-        switch (state)
+        if (selectionImage == null)
+            selectionImage = GetComponent<Image>();
+
+        selectionImage.color = isSelected ? new Color(0.4f, 0.8f, 0.8f, 1) : Color.white;
+        Selected = isSelected;
+    }
+    public void OnCLick()
+    {
+        if (Selected)
         {
-            case STATE.sell:
-                boardController.PutInCart(transform);
-                state = STATE.cart;
-                break;
-            case STATE.cart:
-                boardController.RemoveFromCart(transform); 
-                state = STATE.sell;
-                break;
-            case STATE.inventory:
-                break;
-
+            shopController.RemoveSelectedItem(this);
         }
-        
+        else
+        {
+            shopController.AddSelectedItem(this);
+        }
+        SetIsSelected(!Selected);
     }
 
-    public enum STATE
-    {
-        sell,
-        cart,
-        inventory
-    }
+
+
+
+
+
 
 }

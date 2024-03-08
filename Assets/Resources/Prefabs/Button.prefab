@@ -200,7 +200,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8097561667421869287}
         m_TargetAssemblyTypeName: ShopButtonController, Assembly-CSharp
-        m_MethodName: OnClick
+        m_MethodName: OnCLick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   valueText: {fileID: 1221262685510985472}
-  image: {fileID: 1320638479748997320}
+  itemImage: {fileID: 1320638479748997320}
 --- !u!1 &8860233106594767754
 GameObject:
   m_ObjectHideFlags: 0

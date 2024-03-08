@@ -7,5 +7,12 @@ public class Item: ScriptableObject
 {
     public Sprite sprite;
     public float value;
+    public Type type;
+}
+
+public enum Type
+{
+    head,
+    hood
 }
 

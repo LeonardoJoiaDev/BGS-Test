@@ -1,21 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class ShopController : MonoBehaviour
 {
     [SerializeField, Tooltip("Insert Board Controller 1")]
-    BoardController boardController1;
-
-    [SerializeField, Tooltip("Insert Board Controller 2")]
-    BoardController boardController2;
+    BoardController boardController;
 
     [SerializeField, Tooltip("Insert prefab Shop Button")]
-    GameObject shopButton;
+    GameObject shopButtonPrefab;
 
     [SerializeField,Tooltip("Insert itens Library")]
     ShopItensLibrary shopItensLibrary;
 
+    [SerializeField, Tooltip("Insert player visual controller ")]
+    PlayerVisualController playerVisualController;
+
+    [SerializeField, Tooltip("insert textmesh pro for cost")]
+    TextMeshProUGUI textCost;
+
+    float cost;
+
+    public List<ShopButtonController> SelectedItens { get; private set; }
+
+    private void Start()
+    {
+        InitializeShopItens(shopButtonPrefab, shopItensLibrary.headItens);
+        SelectedItens = new List<ShopButtonController>();
+        ChangeCost(0);
+    }
 
     private void OnEnable()
     {
@@ -24,7 +39,6 @@ public class ShopController : MonoBehaviour
 
     public void ButtonBuy()
     {
-        UpdateBoards();
     }
 
     public void ButtonSell()
@@ -37,19 +51,54 @@ public class ShopController : MonoBehaviour
 
     }
 
+    public void ButtonConfirm()
+    {
+
+    }
+
     private void UpdateBoards()
     {
-        boardController1.InitializeBoard(shopButton, shopItensLibrary.headItens);
     }
 
-    public void PutInCart(Transform button)
+    public void InitializeShopItens(GameObject prefab, List<Item> itens)
     {
-        boardController2.AddItem(button);
-    }
-    public void RemoveFromCart(Transform button) 
-    {
-        boardController1.AddItem(button);
+        foreach (Item item in itens)
+        {
+            GameObject go = Instantiate(prefab);
+            go.GetComponent<ShopButtonController>().SetItem(item, this);
+            boardController.SetItemOnBoard(go.transform);
+        }
     }
 
+    public void AddSelectedItem(ShopButtonController obj)
+    {
+        if (SelectedItens.Any(item => item.CurrentItem.type == obj.CurrentItem.type))
+        {
+            List<ShopButtonController> itemsToRemove;
+            itemsToRemove = SelectedItens.FindAll(item => item.CurrentItem.type == obj.CurrentItem.type);
+
+            foreach (ShopButtonController item in itemsToRemove)
+            {
+                RemoveSelectedItem(item);
+                item.SetIsSelected(false);
+            }
+        }
+        
+        SelectedItens.Add(obj);
+        ChangeCost(obj.CurrentItem.value);
+    }
+
+    public void RemoveSelectedItem(ShopButtonController obj)
+    {
+        SelectedItens.Remove(obj);
+        ChangeCost(-obj.CurrentItem.value);
+    }
+
+    private void ChangeCost(float value)
+    {
+        cost += value;
+        textCost.text = cost.ToString("F2");
+        
+    }
 
 }
