@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class ShopController : MonoBehaviour
 {
-    [SerializeField, Tooltip("Insert Board Controller 1")]
-    BoardController boardController;
+    [SerializeField, Tooltip("Insert Board Controller")]
+    BoardController boardController; 
 
     [SerializeField, Tooltip("Insert prefab Shop Button")]
     GameObject shopButtonPrefab;
@@ -23,41 +23,39 @@ public class ShopController : MonoBehaviour
 
     float cost;
 
-    public List<ShopButtonController> SelectedItens { get; private set; }
+    List<ShopButtonController> shopItens = new List<ShopButtonController>();
+
+    List<ShopButtonController> selectedItens = new List<ShopButtonController>();
+    public List<ShopButtonController> SelectedItens { get => selectedItens; }
+    public List<ShopButtonController> ShopItens { get => shopItens;  }
 
     private void Start()
     {
         InitializeShopItens(shopButtonPrefab, shopItensLibrary.Itens);
-        SelectedItens = new List<ShopButtonController>();
+        selectedItens = new List<ShopButtonController>();
         ChangeCost(0);
     }
 
     private void OnEnable()
     {
-        ButtonBuy();
-    }
-
-    public void ButtonBuy()
-    {
-    }
-
-    public void ButtonSell()
-    {
-
-    }
-
-    public void ButtonInventory()
-    {
-
+        boardController.UpdateBoard(BoardType.Buy);
     }
 
     public void ButtonConfirm()
     {
+        //if(!have money)
+        //        return;
+        shopItens.RemoveAll(shopButtonController => SelectedItens.Contains(shopButtonController));
+        foreach (ShopButtonController item in SelectedItens)
+        {
+            item.gameObject.SetActive(false);
+            item.SetIsSelected(false);
+        }
 
-    }
+        PlayerManager.Instance.InventoryController.SetNewItem(SelectedItens);
 
-    private void UpdateBoards()
-    {
+        boardController.UpdateBoard(BoardType.Buy);
+
     }
 
     public void InitializeShopItens(GameObject prefab, List<Item> itens)
@@ -65,7 +63,9 @@ public class ShopController : MonoBehaviour
         foreach (Item item in itens)
         {
             GameObject go = Instantiate(prefab);
-            go.GetComponent<ShopButtonController>().SetItem(item, this);
+            ShopButtonController shopButtonController = go.GetComponent<ShopButtonController>();
+            shopButtonController.SetItem(item, this);
+            shopItens.Add(shopButtonController);
             boardController.SetItemOnBoard(go.transform);
         }
     }
@@ -98,7 +98,9 @@ public class ShopController : MonoBehaviour
     {
         cost += value;
         textCost.text = cost.ToString("F2");
-        
+
+        //if(!have money)
+        //        return;
     }
 
 }

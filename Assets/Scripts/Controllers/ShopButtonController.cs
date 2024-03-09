@@ -18,7 +18,6 @@ public class ShopButtonController : MonoBehaviour
     ShopController shopController;
 
     public bool IsEquipped { get; private set; }
-    public bool IsPurchased { get; private set; }
     public Item CurrentItem { get; private set; }
     public bool Selected { get; private set; }
     
@@ -37,7 +36,7 @@ public class ShopButtonController : MonoBehaviour
             selectionImage = transform.GetChild(0).GetComponent<Image>();
 
         selectionImage.color = isSelected ? new Color(0.4f, 0.8f, 0.8f, 1) : Color.white;
-        PlayerManager.Instance.VisualController.SetVisual(CurrentItem.type, isSelected , CurrentItem.sprite);
+        PlayerManager.Instance.VisualController.SetTemporaryVisual(CurrentItem.type, isSelected , CurrentItem.sprite);
 
         Selected = isSelected;
     }

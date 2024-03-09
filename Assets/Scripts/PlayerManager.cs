@@ -8,7 +8,12 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField]
     PlayerVisualController visualController;
+
+    [SerializeField]
+    PlayerInventory inventoryController;
+
     public PlayerVisualController VisualController { get => visualController; }
+    public PlayerInventory InventoryController { get => inventoryController; }
 
     private void Awake()
     {
@@ -23,6 +28,8 @@ public class PlayerManager : MonoBehaviour
 
         if(visualController == null)
             visualController = gameObject.GetComponent<PlayerVisualController>();
+        if (inventoryController == null)
+            inventoryController = gameObject.GetComponent<PlayerInventory>();
 
     }
     // Start is called before the first frame update

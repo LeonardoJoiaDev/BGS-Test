@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,7 @@ public class PlayerVisualController : MonoBehaviour
         }
     }
 
-    public void SetVisual(Type type, bool setting, Sprite itemSprite = null)
+    public void SetTemporaryVisual(Type type, bool setting, Sprite itemSprite = null)
     {
         if (setting)
         {
@@ -32,6 +33,12 @@ public class PlayerVisualController : MonoBehaviour
         {
             spriteRenderers[GetIndexOfType(type)].sprite = spritesEquiped[GetIndexOfType(type)];
         }
+    }
+    public void EquipItem(Type type, Sprite itemSprite = null)
+    {
+        int index = GetIndexOfType(type);
+        spriteRenderers[index].sprite = (itemSprite != null) ? itemSprite: spritesDefault[index];
+        
     }
 
     public Dictionary<Type, int> typeToIndex = new Dictionary<Type, int>
