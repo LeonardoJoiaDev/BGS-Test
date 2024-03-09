@@ -12,12 +12,20 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     PlayerInventory inventoryController;
 
+    [SerializeField]
+    PlayerController playerController;
+
+    [SerializeField]
+    ShopController shopController;
+
     float playerBalance = 200;
 
 
     public PlayerVisualController VisualController { get => visualController; }
     public PlayerInventory InventoryController { get => inventoryController; }
+    public ShopController ShopController { get => shopController;  }
     public float PlayerBalance { get => playerBalance; }
+    public PlayerController PlayerController { get => playerController; }
 
     private void Awake()
     {

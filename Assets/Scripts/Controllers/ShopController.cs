@@ -27,6 +27,12 @@ public class ShopController : MonoBehaviour
     [SerializeField, Tooltip("insert PopUp transform")]
     Transform popup;
 
+    [SerializeField, Tooltip("insert store ")]
+    Transform store;
+
+    [SerializeField, Tooltip("insert exit Store Point ")]
+    Transform exitStorePoint;
+
     float cost;
 
     List<ShopButtonController> shopItens = new List<ShopButtonController>();
@@ -42,13 +48,16 @@ public class ShopController : MonoBehaviour
         ChangeCost(0);
         textBalance.text = PlayerManager.Instance.PlayerBalance.ToString("F2");
         popup.gameObject.SetActive(false);
+
+        textBalance.text = PlayerManager.Instance.PlayerBalance.ToString();
     }
 
     private void OnEnable()
     {
         boardController.SetBoardType(BoardType.Buy);
-
-        //TODO: atrelar o player ao shop
+        if(PlayerManager.Instance!=null)
+            textBalance.text = PlayerManager.Instance.PlayerBalance.ToString();
+        
     }
 
     public void ButtonConfirmToBuy()
@@ -166,8 +175,18 @@ public class ShopController : MonoBehaviour
 
     public void ButtonBack()
     {
-        this.gameObject.SetActive(false);
-        //TODO: atrelar o player ao mundo
+        store.gameObject.SetActive(false);
+        PlayerManager.Instance.PlayerController.IsNearShop = false;
+        PlayerManager.Instance.transform.parent = null;
+        PlayerManager.Instance.transform.localScale = Vector3.one;
+        PlayerManager.Instance.transform.position = exitStorePoint.position;
 
+    }
+
+    public void OpenStore()
+    {
+        PlayerManager.Instance.transform.parent = store.GetChild(0).GetChild(0);
+
+        store.gameObject.SetActive(true);
     }
 }
