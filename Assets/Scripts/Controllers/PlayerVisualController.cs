@@ -17,6 +17,8 @@ public class PlayerVisualController : MonoBehaviour
         for (int i = 0; i < spritesEquiped.Length; i++)
         {
             spritesEquiped[i] = spriteRenderers[i].sprite;
+
+            spritesDefault[i] = spriteRenderers[i].sprite;
         }
     }
 

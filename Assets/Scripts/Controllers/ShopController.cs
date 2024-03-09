@@ -27,7 +27,7 @@ public class ShopController : MonoBehaviour
 
     private void Start()
     {
-        InitializeShopItens(shopButtonPrefab, shopItensLibrary.headItens);
+        InitializeShopItens(shopButtonPrefab, shopItensLibrary.Itens);
         SelectedItens = new List<ShopButtonController>();
         ChangeCost(0);
     }

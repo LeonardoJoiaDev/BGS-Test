@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ShopItensLibrary : MonoBehaviour
 {
-    public List<Item> headItens = new List<Item>();
-    public List<Item> armItens = new List<Item>();
-    public List<Item> hoodItens = new List<Item>();
+    public List<Item> Itens = new List<Item>();
 
 }

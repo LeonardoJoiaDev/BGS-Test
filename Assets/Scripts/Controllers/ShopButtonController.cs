@@ -12,7 +12,9 @@ public class ShopButtonController : MonoBehaviour
     [SerializeField, Tooltip("Insert child with Image component")]
     Image itemImage;
 
+    [SerializeField, Tooltip("Insert child with Image component to mark as selected")]
     Image selectionImage;
+
     ShopController shopController;
 
     public bool IsEquipped { get; private set; }
@@ -32,7 +34,7 @@ public class ShopButtonController : MonoBehaviour
     public void SetIsSelected(bool isSelected)
     {
         if (selectionImage == null)
-            selectionImage = GetComponent<Image>();
+            selectionImage = transform.GetChild(0).GetComponent<Image>();
 
         selectionImage.color = isSelected ? new Color(0.4f, 0.8f, 0.8f, 1) : Color.white;
         PlayerManager.Instance.VisualController.SetVisual(CurrentItem.type, isSelected , CurrentItem.sprite);
