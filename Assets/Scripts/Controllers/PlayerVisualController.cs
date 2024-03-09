@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class PlayerVisualController : MonoBehaviour
 {
     [SerializeField, Tooltip("Insert all Sprite renderer components according to the order of the Type enum")]
-    SpriteRenderer[] spriteRenderers = new SpriteRenderer[13];
+    SpriteRenderer[] spriteRenderers = new SpriteRenderer[14];
 
-    Sprite[] spritesDefault = new Sprite[13];
+    Sprite[] spritesDefault = new Sprite[14];
 
-    Sprite[] spritesEquiped = new Sprite[13];
+    Sprite[] spritesEquiped = new Sprite[14];
 
     private void Awake()
     {
