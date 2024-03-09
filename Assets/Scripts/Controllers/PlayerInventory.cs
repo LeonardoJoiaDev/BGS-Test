@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
     // Start is called before the first frame update
     List<ShopButtonController> playerItens = new List<ShopButtonController>();
-    ShopButtonController[] equipedItens = new ShopButtonController[13];
+    ShopButtonController[] equipedItens = new ShopButtonController[14];
     public List<ShopButtonController> PlayerItens { get => playerItens; }
     public ShopButtonController[] EquipedItens { get => equipedItens; }
 
@@ -22,6 +23,10 @@ public class PlayerInventory : MonoBehaviour
     public void RemovePlayerItem(ShopButtonController shopButtonController)
     {
         playerItens.Remove(shopButtonController);
+    }
+    public void RemovePlayerItens(List<ShopButtonController> removedItens)
+    {
+        playerItens.RemoveAll(shopButtonController => removedItens.Contains(shopButtonController));
     }
 
     public void EquipItem(ShopButtonController shopButtonController)
@@ -45,9 +50,13 @@ public class PlayerInventory : MonoBehaviour
             shopButtonController.CurrentItem.sprite
             );
         
-            
-        
+    }
 
+    public List<ShopButtonController> GetItensToSell()
+    {
+        List<ShopButtonController> sellItens = new List<ShopButtonController>();
+        sellItens = playerItens.Except(equipedItens).ToList();
+        return sellItens;
     }
 
 }

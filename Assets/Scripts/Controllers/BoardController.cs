@@ -4,7 +4,6 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class BoardController : MonoBehaviour
 {
@@ -48,7 +47,7 @@ public class BoardController : MonoBehaviour
                 buttonConfirm.onClick.AddListener(shopController.ButtonConfirmToBuy);
                 break;
             case BoardType.Sell:
-                OrderBoard(shopController.ShopItens);
+                OrderBoard(PlayerManager.Instance.InventoryController.GetItensToSell());
                 buttonText.text = "Confirm Sell";
                 buttonConfirm.onClick.AddListener(shopController.ButtonConfirmToSell);
                 break;
@@ -82,6 +81,3 @@ public enum BoardType
     Sell,
     Inventory
 }
-
-//TODO: mudar texto e funcionalidade de confirm para equip/unequip
-//fazer aba de sell listar toso os itens menos os que estao equipados

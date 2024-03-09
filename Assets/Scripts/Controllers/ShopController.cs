@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class ShopController : MonoBehaviour
 {
@@ -48,6 +47,8 @@ public class ShopController : MonoBehaviour
     private void OnEnable()
     {
         boardController.SetBoardType(BoardType.Buy);
+
+        //TODO: atrelar o player ao shop
     }
 
     public void ButtonConfirmToBuy()
@@ -70,12 +71,13 @@ public class ShopController : MonoBehaviour
     }
     public void ButtonConfirmToSell()
     {
-        //PlayerManager.Instance.ChangeBalance(cost);
-        //textBalance.text = PlayerManager.Instance.PlayerBalance.ToString();
-        //shopItens.RemoveAll(shopButtonController => SelectedItens.Contains(shopButtonController));
-        //selectedItens.ForEach(item => item.gameObject.SetActive(false));
-        //PlayerManager.Instance.InventoryController.SetNewItem(SelectedItens);
-        //RemoveSelectedItems(selectedItens);
+        PlayerManager.Instance.ChangeBalance(cost);
+        textBalance.text = PlayerManager.Instance.PlayerBalance.ToString();
+        shopItens.AddRange(SelectedItens);
+        selectedItens.ForEach(item => item.gameObject.SetActive(false));
+
+        PlayerManager.Instance.InventoryController.RemovePlayerItens(SelectedItens);
+        RemoveSelectedItems(selectedItens);
     }
 
     public void ButtonEquip()
@@ -102,18 +104,21 @@ public class ShopController : MonoBehaviour
 
     public void AddSelectedItem(ShopButtonController obj)
     {
-        if (SelectedItens.Any(item => item.CurrentItem.type == obj.CurrentItem.type))
+        if (boardController.BoardType != BoardType.Sell)
         {
-            List<ShopButtonController> itemsToRemove;
-            itemsToRemove = SelectedItens.FindAll(item => item.CurrentItem.type == obj.CurrentItem.type);
-
-            foreach (ShopButtonController item in itemsToRemove)
+            if (SelectedItens.Any(item => item.CurrentItem.type == obj.CurrentItem.type))
             {
-                RemoveSelectedItem(item);
-                item.SetIsSelected(false);
+                List<ShopButtonController> itemsToRemove;
+                itemsToRemove = SelectedItens.FindAll(item => item.CurrentItem.type == obj.CurrentItem.type);
+
+                foreach (ShopButtonController item in itemsToRemove)
+                {
+                    RemoveSelectedItem(item);
+                    item.SetIsSelected(false);
+                }
             }
         }
-        
+
         SelectedItens.Add(obj);
         obj.SetIsSelected(true);
         ChangeCost(obj.CurrentItem.value);
@@ -159,4 +164,10 @@ public class ShopController : MonoBehaviour
         boardController.SetBoardType(BoardType.Inventory);
     }
 
+    public void ButtonBack()
+    {
+        this.gameObject.SetActive(false);
+        //TODO: atrelar o player ao mundo
+
+    }
 }
