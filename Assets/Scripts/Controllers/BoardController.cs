@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,12 @@ public class BoardController : MonoBehaviour
 
     [SerializeField,Tooltip("Insert ShopController")]
     ShopController shopController;
+
+    [SerializeField, Tooltip("Insert button to confirm")]
+    Button buttonConfirm;
+
+    [SerializeField, Tooltip("Insert button TmPro")]
+    TextMeshProUGUI buttonText;
 
     BoardType boardType = BoardType.Buy;
 
@@ -30,17 +37,25 @@ public class BoardController : MonoBehaviour
     {
         this.boardType = boardType;
         shopController.RemoveSelectedItems(shopController.SelectedItens);
-        //shopController.SelectedItens.ForEach(i => { i.SetIsSelected(false); });
+
+        buttonConfirm.onClick.RemoveAllListeners();
+
         switch (boardType)
         {
             case BoardType.Buy:
                 OrderBoard(shopController.ShopItens);
+                buttonText.text = "Confirm Buy";
+                buttonConfirm.onClick.AddListener(shopController.ButtonConfirmToBuy);
                 break;
             case BoardType.Sell:
                 OrderBoard(shopController.ShopItens);
+                buttonText.text = "Confirm Sell";
+                buttonConfirm.onClick.AddListener(shopController.ButtonConfirmToSell);
                 break;
             case BoardType.Inventory:
                 OrderBoard(PlayerManager.Instance.InventoryController.PlayerItens);
+                buttonText.text = "Equip/Remove";
+                buttonConfirm.onClick.AddListener(shopController.ButtonEquip);
                 break;
         }
 

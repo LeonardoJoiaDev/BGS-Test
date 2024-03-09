@@ -6,8 +6,9 @@ public class PlayerInventory : MonoBehaviour
 {
     // Start is called before the first frame update
     List<ShopButtonController> playerItens = new List<ShopButtonController>();
-
+    ShopButtonController[] equipedItens = new ShopButtonController[13];
     public List<ShopButtonController> PlayerItens { get => playerItens; }
+    public ShopButtonController[] EquipedItens { get => equipedItens; }
 
     public void SetNewItem(ShopButtonController shopButtonController)
     {
@@ -22,4 +23,31 @@ public class PlayerInventory : MonoBehaviour
     {
         playerItens.Remove(shopButtonController);
     }
+
+    public void EquipItem(ShopButtonController shopButtonController)
+    {
+        int index = Item.GetIndexOfType(shopButtonController.CurrentItem.type);
+        if (equipedItens[index] != null)
+        {
+            equipedItens[index].EquipItem(false);
+        }
+        if (shopButtonController == equipedItens[index])
+        {
+            equipedItens[index] = null;
+            shopButtonController.EquipItem(false);
+            PlayerManager.Instance.VisualController.EquipItem(shopButtonController.CurrentItem.type);
+            return;
+        }
+        equipedItens[index] = shopButtonController;
+        shopButtonController.EquipItem(true);
+        PlayerManager.Instance.VisualController.EquipItem(
+            shopButtonController.CurrentItem.type, 
+            shopButtonController.CurrentItem.sprite
+            );
+        
+            
+        
+
+    }
+
 }

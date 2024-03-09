@@ -27,51 +27,23 @@ public class PlayerVisualController : MonoBehaviour
     {
         if (setting)
         {
-            spriteRenderers[GetIndexOfType(type)].sprite = itemSprite; 
+            spriteRenderers[Item.GetIndexOfType(type)].sprite = itemSprite; 
         }
         else
         {
-            spriteRenderers[GetIndexOfType(type)].sprite = spritesEquiped[GetIndexOfType(type)];
+            spriteRenderers[Item.GetIndexOfType(type)].sprite = spritesEquiped[Item.GetIndexOfType(type)];
         }
     }
     public void EquipItem(Type type, Sprite itemSprite = null)
     {
-        int index = GetIndexOfType(type);
-        spriteRenderers[index].sprite = (itemSprite != null) ? itemSprite: spritesDefault[index];
-        
+        int index = Item.GetIndexOfType(type);
+        spritesEquiped[index] = (itemSprite != null) ? itemSprite : spritesDefault[index];
+        spriteRenderers[index].sprite = spritesEquiped[index];
+
+
     }
 
-    public Dictionary<Type, int> typeToIndex = new Dictionary<Type, int>
-    {
-        { Type.bootL, 0 },
-        { Type.bootR, 1 },
-        { Type.elbowL, 2 },
-        { Type.elbowR, 3 },
-        { Type.face, 4 },
-        { Type.hood, 5 },
-        { Type.legL, 6 },
-        { Type.legR, 7 },
-        { Type.pelvis, 8 },
-        { Type.shoulderL, 9 },
-        { Type.shoulderR, 10 },
-        { Type.torso, 11 },
-        { Type.wristL, 12 },
-        { Type.wristR, 13 }
-    };
-
-    public int GetIndexOfType(Type type)
-    {
-        int index;
-        if (typeToIndex.TryGetValue(type, out index))
-        {
-            return index;
-        }
-        else
-        {
-            Debug.LogError("Type not found in dictionary: " + type);
-            return -1;
-        }
-    }
+    
 }
 
 

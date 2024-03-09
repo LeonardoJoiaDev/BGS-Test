@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ShopButtonController : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class ShopButtonController : MonoBehaviour
 
     [SerializeField, Tooltip("Insert child with Image component to mark as selected")]
     Image selectionImage;
+    
+    [SerializeField, Tooltip("Insert child with Image component to mark as equiped")]
+    Image equipedImage;
 
     ShopController shopController;
 
@@ -50,6 +54,12 @@ public class ShopButtonController : MonoBehaviour
         {
             shopController.AddSelectedItem(this);
         }
+    }
+
+    public void EquipItem(bool value)
+    {
+        IsEquipped = value;
+        equipedImage.gameObject.SetActive(IsEquipped);
     }
 
 

@@ -50,7 +50,7 @@ public class ShopController : MonoBehaviour
         boardController.SetBoardType(BoardType.Buy);
     }
 
-    public void ButtonConfirm()
+    public void ButtonConfirmToBuy()
     {
         if(PlayerManager.Instance.PlayerBalance < cost)
         {
@@ -59,11 +59,34 @@ public class ShopController : MonoBehaviour
         }
         PlayerManager.Instance.ChangeBalance(-cost);
         textBalance.text = PlayerManager.Instance.PlayerBalance.ToString();
+
         shopItens.RemoveAll(shopButtonController => SelectedItens.Contains(shopButtonController));
+
         selectedItens.ForEach(item => item.gameObject.SetActive(false));
+
         PlayerManager.Instance.InventoryController.SetNewItem(SelectedItens);
+
         RemoveSelectedItems(selectedItens);
     }
+    public void ButtonConfirmToSell()
+    {
+        //PlayerManager.Instance.ChangeBalance(cost);
+        //textBalance.text = PlayerManager.Instance.PlayerBalance.ToString();
+        //shopItens.RemoveAll(shopButtonController => SelectedItens.Contains(shopButtonController));
+        //selectedItens.ForEach(item => item.gameObject.SetActive(false));
+        //PlayerManager.Instance.InventoryController.SetNewItem(SelectedItens);
+        //RemoveSelectedItems(selectedItens);
+    }
+
+    public void ButtonEquip()
+    {
+        foreach(ShopButtonController item in selectedItens)
+        {
+            PlayerManager.Instance.InventoryController.EquipItem(item);
+        }
+
+        RemoveSelectedItems(selectedItens);
+    } 
 
     public void InitializeShopItens(GameObject prefab, List<Item> itens)
     {
