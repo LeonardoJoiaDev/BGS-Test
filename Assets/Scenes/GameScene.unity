@@ -206,8 +206,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1646008461}
-        m_TargetAssemblyTypeName: BoardController, Assembly-CSharp
+      - m_Target: {fileID: 254927532}
+        m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
         m_MethodName: ButtonBuy
         m_Mode: 1
         m_Arguments:
@@ -625,6 +625,26 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: f8d916881a19b7a4a99ec74753414a40, type: 3}
+    - target: {fileID: 212000012109687088, guid: 722924ec8a0056f4a8fb443b2fb65ff9, type: 3}
+      propertyPath: m_Color.a
+      value: 0.9843137
+      objectReference: {fileID: 0}
+    - target: {fileID: 212000012109687088, guid: 722924ec8a0056f4a8fb443b2fb65ff9, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212000012109687088, guid: 722924ec8a0056f4a8fb443b2fb65ff9, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212000012109687088, guid: 722924ec8a0056f4a8fb443b2fb65ff9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212000012109687088, guid: 722924ec8a0056f4a8fb443b2fb65ff9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 212000013352628812, guid: 722924ec8a0056f4a8fb443b2fb65ff9, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -818,8 +838,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1646008461}
-        m_TargetAssemblyTypeName: BoardController, Assembly-CSharp
+      - m_Target: {fileID: 254927532}
+        m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
         m_MethodName: ButtonSell
         m_Mode: 1
         m_Arguments:
@@ -3089,8 +3109,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1646008461}
-        m_TargetAssemblyTypeName: BoardController, Assembly-CSharp
+      - m_Target: {fileID: 254927532}
+        m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
         m_MethodName: ButtonInventory
         m_Mode: 1
         m_Arguments:
@@ -3256,7 +3276,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CONFIRM
+  m_text: CONFIRM BUY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3283,7 +3303,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
+  m_fontSize: 37.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

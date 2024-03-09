@@ -12,8 +12,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     PlayerInventory inventoryController;
 
+    float playerBalance = 200;
+
+
     public PlayerVisualController VisualController { get => visualController; }
     public PlayerInventory InventoryController { get => inventoryController; }
+    public float PlayerBalance { get => playerBalance; }
 
     private void Awake()
     {
@@ -32,15 +36,10 @@ public class PlayerManager : MonoBehaviour
             inventoryController = gameObject.GetComponent<PlayerInventory>();
 
     }
-    // Start is called before the first frame update
-    void Start()
+
+    public void ChangeBalance(float value)
     {
-        
+        playerBalance += value;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

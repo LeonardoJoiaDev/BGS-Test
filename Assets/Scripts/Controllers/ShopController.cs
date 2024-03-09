@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ShopController : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class ShopController : MonoBehaviour
     [SerializeField, Tooltip("insert textmesh pro for cost")]
     TextMeshProUGUI textCost;
 
+    [SerializeField, Tooltip("insert textmesh pro for Balance")]
+    TextMeshProUGUI textBalance;
+
+    [SerializeField, Tooltip("insert PopUp transform")]
+    Transform popup;
+
     float cost;
 
     List<ShopButtonController> shopItens = new List<ShopButtonController>();
@@ -34,28 +41,28 @@ public class ShopController : MonoBehaviour
         InitializeShopItens(shopButtonPrefab, shopItensLibrary.Itens);
         selectedItens = new List<ShopButtonController>();
         ChangeCost(0);
+        textBalance.text = PlayerManager.Instance.PlayerBalance.ToString("F2");
+        popup.gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        boardController.UpdateBoard(BoardType.Buy);
+        boardController.SetBoardType(BoardType.Buy);
     }
 
     public void ButtonConfirm()
     {
-        //if(!have money)
-        //        return;
-        shopItens.RemoveAll(shopButtonController => SelectedItens.Contains(shopButtonController));
-        foreach (ShopButtonController item in SelectedItens)
+        if(PlayerManager.Instance.PlayerBalance < cost)
         {
-            item.gameObject.SetActive(false);
-            item.SetIsSelected(false);
+            popup.gameObject.SetActive(true);
+            return;
         }
-
+        PlayerManager.Instance.ChangeBalance(-cost);
+        textBalance.text = PlayerManager.Instance.PlayerBalance.ToString();
+        shopItens.RemoveAll(shopButtonController => SelectedItens.Contains(shopButtonController));
+        selectedItens.ForEach(item => item.gameObject.SetActive(false));
         PlayerManager.Instance.InventoryController.SetNewItem(SelectedItens);
-
-        boardController.UpdateBoard(BoardType.Buy);
-
+        RemoveSelectedItems(selectedItens);
     }
 
     public void InitializeShopItens(GameObject prefab, List<Item> itens)
@@ -85,22 +92,48 @@ public class ShopController : MonoBehaviour
         }
         
         SelectedItens.Add(obj);
+        obj.SetIsSelected(true);
         ChangeCost(obj.CurrentItem.value);
     }
 
     public void RemoveSelectedItem(ShopButtonController obj)
     {
-        SelectedItens.Remove(obj);
+        obj.SetIsSelected(false);
         ChangeCost(-obj.CurrentItem.value);
+        SelectedItens.Remove(obj);
+    }
+
+    public void RemoveSelectedItems(List<ShopButtonController> objs)
+    {
+        foreach (ShopButtonController obj in objs)
+        {
+            obj.SetIsSelected(false);
+            ChangeCost(-obj.CurrentItem.value);
+        }
+        SelectedItens.RemoveAll(shopButtonController => SelectedItens.Contains(shopButtonController));
     }
 
     private void ChangeCost(float value)
     {
         cost += value;
         textCost.text = cost.ToString("F2");
+        textCost.color = (PlayerManager.Instance.PlayerBalance < cost) ? Color.red : Color.black;
+        
+    }
 
-        //if(!have money)
-        //        return;
+    public void ButtonBuy()
+    {
+        boardController.SetBoardType(BoardType.Buy);
+    }
+
+    public void ButtonSell()
+    {
+        boardController.SetBoardType(BoardType.Sell);
+    }
+
+    public void ButtonInventory()
+    {
+        boardController.SetBoardType(BoardType.Inventory);
     }
 
 }

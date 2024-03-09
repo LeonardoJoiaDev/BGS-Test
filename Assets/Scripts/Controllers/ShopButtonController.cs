@@ -50,7 +50,6 @@ public class ShopButtonController : MonoBehaviour
         {
             shopController.AddSelectedItem(this);
         }
-        SetIsSelected(!Selected);
     }
 
 

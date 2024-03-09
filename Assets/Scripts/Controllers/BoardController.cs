@@ -13,7 +13,9 @@ public class BoardController : MonoBehaviour
     [SerializeField,Tooltip("Insert ShopController")]
     ShopController shopController;
 
-    
+    BoardType boardType = BoardType.Buy;
+
+    public BoardType BoardType { get => boardType; }
 
     public void SetItemOnBoard(Transform transform)
     {
@@ -23,24 +25,13 @@ public class BoardController : MonoBehaviour
     {
         transform.SetParent(content, false);
     }
-    void OrderBoard(List<ShopButtonController> itens)
+
+    public void SetBoardType(BoardType boardType)
     {
-        foreach (Transform t in content)
-        {
-            t.gameObject.SetActive(false);
-        }
-        foreach (ShopButtonController item in itens)
-        {
-            item.gameObject.SetActive(true);
-        }
-
-
-    }
-    public void UpdateBoard(BoardType type)
-    {
-        shopController.SelectedItens.ForEach(i => { i.SetIsSelected(false); });
-
-        switch(type)
+        this.boardType = boardType;
+        shopController.RemoveSelectedItems(shopController.SelectedItens);
+        //shopController.SelectedItens.ForEach(i => { i.SetIsSelected(false); });
+        switch (boardType)
         {
             case BoardType.Buy:
                 OrderBoard(shopController.ShopItens);
@@ -52,24 +43,22 @@ public class BoardController : MonoBehaviour
                 OrderBoard(PlayerManager.Instance.InventoryController.PlayerItens);
                 break;
         }
+
     }
-    public void ButtonBuy()
+
+    void OrderBoard(List<ShopButtonController> itens)
     {
-        UpdateBoard(BoardType.Buy);
+        foreach (Transform t in content)
+        {
+            t.gameObject.SetActive(false);
+        }
+        foreach (ShopButtonController item in itens)
+        {
+            item.gameObject.SetActive(true);
+        }
+
     }
-
-    public void ButtonSell()
-    {
-
-        UpdateBoard(BoardType.Sell);
-    }
-
-    public void ButtonInventory()
-    {
-        UpdateBoard(BoardType.Inventory);
-    }
-
-    
+     
 }
 
 public enum BoardType
